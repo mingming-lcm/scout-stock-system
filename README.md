@@ -1,0 +1,1 @@
+# scout-stock-system
