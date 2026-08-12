@@ -1,0 +1,29 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "sqlite"
+}
+
+model StockItem {
+  id           String   @id @default(cuid())
+  sku          String   @unique
+  name         String
+  description  String?
+  quantity     Int      @default(0)
+  unitPrice    Float    @default(0)
+  category     String?
+  location     String?
+  reorderLevel Int      @default(0)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  @@index([name])
+  @@index([category])
+  @@index([location])
+}

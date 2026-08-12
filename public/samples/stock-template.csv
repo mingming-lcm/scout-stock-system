@@ -1,0 +1,4 @@
+SKU,Name,Description,Quantity,Unit Price,Category,Location,Reorder Level
+SKU-1001,Steel Bracket,Corner mounting bracket,120,2.5,Hardware,Aisle A / Bin 3,25
+SKU-1002,Nylon Washer Pack,Pack of 50 washers,80,1.15,Fasteners,Aisle A / Bin 8,20
+SKU-1003,Sensor Cable 2m,Shielded sensor cable,45,8.9,Electronics,Aisle C / Bin 1,15
