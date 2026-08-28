@@ -12,6 +12,29 @@ export type StockItem = {
   updatedAt: string;
 };
 
+export type StockBorrow = {
+  id: string;
+  itemId: string;
+  quantity: number;
+  borrower: string;
+  note: string | null;
+  status: string;
+  borrowedAt: string;
+  dueAt: string | null;
+  returnedAt: string | null;
+};
+
+export type StockMovement = {
+  id: string;
+  itemId: string;
+  type: string;
+  quantity: number;
+  note: string | null;
+  actor: string | null;
+  borrowId: string | null;
+  createdAt: string;
+};
+
 export type StockFormValues = {
   sku: string;
   name: string;

@@ -23,7 +23,43 @@ model StockItem {
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
 
+  movements StockMovement[]
+  borrows   StockBorrow[]
+
   @@index([name])
   @@index([category])
   @@index([location])
+}
+
+model StockMovement {
+  id        String    @id @default(cuid())
+  itemId    String
+  item      StockItem @relation(fields: [itemId], references: [id], onDelete: Cascade)
+  type      String
+  quantity  Int
+  note      String?
+  actor     String?
+  borrowId  String?
+  createdAt DateTime  @default(now())
+
+  @@index([itemId])
+  @@index([type])
+  @@index([createdAt])
+}
+
+model StockBorrow {
+  id         String    @id @default(cuid())
+  itemId     String
+  item       StockItem @relation(fields: [itemId], references: [id], onDelete: Cascade)
+  quantity   Int
+  borrower   String
+  note       String?
+  status     String    @default("ACTIVE")
+  borrowedAt DateTime  @default(now())
+  dueAt      DateTime?
+  returnedAt DateTime?
+
+  @@index([itemId])
+  @@index([status])
+  @@index([borrower])
 }

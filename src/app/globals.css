@@ -344,7 +344,8 @@ th {
 
 .stock-form .full,
 .import-form,
-.form-error {
+.form-error,
+.form-success {
   grid-column: 1 / -1;
 }
 
@@ -370,6 +371,104 @@ fieldset {
   margin: 0;
 }
 
+.form-success {
+  color: var(--accent-deep);
+  margin: 0;
+  background: var(--accent-soft);
+  border-radius: 12px;
+  padding: 0.75rem 0.9rem;
+}
+
+.scan-panel {
+  width: min(980px, 100%);
+}
+
+.scan-layout {
+  display: grid;
+  grid-template-columns: 1fr 1.1fr;
+  gap: 1rem;
+}
+
+.scan-camera,
+.scan-action {
+  display: grid;
+  gap: 0.85rem;
+  align-content: start;
+}
+
+.qr-reader {
+  min-height: 260px;
+  border: 1px dashed var(--line);
+  border-radius: 16px;
+  overflow: hidden;
+  background: #0f1a15;
+}
+
+.qr-reader video {
+  width: 100% !important;
+  border-radius: 16px;
+}
+
+.manual-lookup {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 0.65rem;
+  align-items: end;
+}
+
+.scan-item-card {
+  padding: 0.9rem 1rem;
+  border-radius: 14px;
+  background: var(--accent-soft);
+  display: grid;
+  gap: 0.2rem;
+}
+
+.scan-item-card .muted,
+.qr-label-body .muted {
+  padding: 0;
+}
+
+.scan-empty {
+  margin: 0;
+  box-shadow: none;
+}
+
+.qr-label-panel {
+  width: min(420px, 100%);
+}
+
+.qr-label-body {
+  display: grid;
+  justify-items: center;
+  gap: 0.55rem;
+  text-align: center;
+}
+
+.qr-label-body img {
+  width: 240px;
+  height: 240px;
+}
+
+.borrows-panel {
+  margin-top: 1rem;
+  padding: 1rem 1.05rem 1.15rem;
+}
+
+.section-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 0.5rem;
+}
+
+.section-heading h2 {
+  margin: 0;
+  font-family: var(--font-display), Sora, sans-serif;
+  font-size: 1.2rem;
+}
+
 .import-result {
   background: var(--accent-soft);
   border-radius: 14px;
@@ -380,6 +479,29 @@ fieldset {
   margin: 0.5rem 0 0;
   padding-left: 1.1rem;
   color: var(--muted);
+}
+
+@media print {
+  body * {
+    visibility: hidden;
+  }
+
+  .qr-label-panel,
+  .qr-label-panel * {
+    visibility: visible;
+  }
+
+  .qr-label-panel {
+    position: absolute;
+    inset: 0;
+    box-shadow: none;
+    border: none;
+  }
+
+  .modal-header button,
+  .qr-label-body .form-actions {
+    display: none !important;
+  }
 }
 
 @keyframes rise {
@@ -416,7 +538,9 @@ fieldset {
 @media (max-width: 820px) {
   .top-bar,
   .filters,
-  .stock-form {
+  .stock-form,
+  .scan-layout,
+  .manual-lookup {
     grid-template-columns: 1fr;
     display: grid;
   }

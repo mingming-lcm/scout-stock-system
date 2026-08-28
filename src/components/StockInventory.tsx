@@ -1,7 +1,10 @@
 "use client";
 
 import { useCallback, useEffect, useMemo, useState } from "react";
+import { ActiveBorrows } from "@/components/ActiveBorrows";
 import { ImportModal } from "@/components/ImportModal";
+import { QrLabelModal } from "@/components/QrLabelModal";
+import { QrScanModal } from "@/components/QrScanModal";
 import { StockFormModal } from "@/components/StockFormModal";
 import { StockItem } from "@/types/stock";
 
@@ -26,8 +29,11 @@ export function StockInventory() {
   const [error, setError] = useState<string | null>(null);
   const [formOpen, setFormOpen] = useState(false);
   const [importOpen, setImportOpen] = useState(false);
+  const [scanOpen, setScanOpen] = useState(false);
   const [editing, setEditing] = useState<StockItem | null>(null);
+  const [qrItem, setQrItem] = useState<StockItem | null>(null);
   const [exportOpen, setExportOpen] = useState(false);
+  const [borrowRefresh, setBorrowRefresh] = useState(0);
 
   const load = useCallback(async () => {
     setLoading(true);
@@ -77,6 +83,7 @@ export function StockInventory() {
       return;
     }
     void load();
+    setBorrowRefresh((n) => n + 1);
   }
 
   function openCreate() {
@@ -89,6 +96,11 @@ export function StockInventory() {
     setFormOpen(true);
   }
 
+  function refreshAll() {
+    void load();
+    setBorrowRefresh((n) => n + 1);
+  }
+
   return (
     <div className="app-shell">
       <header className="top-bar">
@@ -97,7 +109,10 @@ export function StockInventory() {
           <h1>Inventory</h1>
         </div>
         <div className="toolbar">
-          <button type="button" className="primary-btn" onClick={openCreate}>
+          <button type="button" className="primary-btn" onClick={() => setScanOpen(true)}>
+            Scan QR
+          </button>
+          <button type="button" className="secondary-btn" onClick={openCreate}>
             Add item
           </button>
           <button
@@ -238,6 +253,13 @@ export function StockInventory() {
                         <button
                           type="button"
                           className="ghost-btn"
+                          onClick={() => setQrItem(item)}
+                        >
+                          QR
+                        </button>
+                        <button
+                          type="button"
+                          className="ghost-btn"
                           onClick={() => openEdit(item)}
                         >
                           Edit
@@ -259,16 +281,28 @@ export function StockInventory() {
         ) : null}
       </section>
 
+      <ActiveBorrows refreshKey={borrowRefresh} onChanged={refreshAll} />
+
       <StockFormModal
         open={formOpen}
         item={editing}
         onClose={() => setFormOpen(false)}
-        onSaved={() => void load()}
+        onSaved={refreshAll}
       />
       <ImportModal
         open={importOpen}
         onClose={() => setImportOpen(false)}
-        onImported={() => void load()}
+        onImported={refreshAll}
+      />
+      <QrScanModal
+        open={scanOpen}
+        onClose={() => setScanOpen(false)}
+        onCompleted={refreshAll}
+      />
+      <QrLabelModal
+        open={Boolean(qrItem)}
+        item={qrItem}
+        onClose={() => setQrItem(null)}
       />
     </div>
   );
