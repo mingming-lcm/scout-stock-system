@@ -40,6 +40,7 @@ export async function applyStockAction(input: MovementActionInput) {
           note: emptyToNull(input.note),
           actor: borrow.borrower,
           borrowId: borrow.id,
+          source: input.source ?? null,
         },
       });
 
@@ -64,6 +65,7 @@ export async function applyStockAction(input: MovementActionInput) {
           quantity: input.quantity,
           note: emptyToNull(input.note),
           actor: emptyToNull(input.actor),
+          source: input.source ?? null,
         },
       });
 
@@ -92,6 +94,7 @@ export async function applyStockAction(input: MovementActionInput) {
           quantity: input.quantity,
           note: emptyToNull(input.note),
           actor: emptyToNull(input.actor),
+          source: input.source ?? null,
         },
       });
 
@@ -133,6 +136,7 @@ export async function applyStockAction(input: MovementActionInput) {
         note: emptyToNull(input.note),
         actor: input.borrower.trim(),
         borrowId: borrow.id,
+        source: input.source ?? null,
       },
     });
 

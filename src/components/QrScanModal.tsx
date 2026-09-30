@@ -147,7 +147,7 @@ export function QrScanModal({ open, onClose, onCompleted }: Props) {
         if (!borrowId) {
           throw new Error("Select an active borrow to return");
         }
-        body = { type: "RETURN", borrowId, note: note || null };
+        body = { type: "RETURN", borrowId, note: note || null, source: "QR" };
       } else if (action === "BORROW") {
         body = {
           type: "BORROW",
@@ -156,6 +156,7 @@ export function QrScanModal({ open, onClose, onCompleted }: Props) {
           borrower,
           note: note || null,
           dueAt: dueAt || null,
+          source: "QR",
         };
       } else {
         body = {
@@ -164,6 +165,7 @@ export function QrScanModal({ open, onClose, onCompleted }: Props) {
           quantity,
           note: note || null,
           actor: actor || null,
+          source: "QR",
         };
       }
 

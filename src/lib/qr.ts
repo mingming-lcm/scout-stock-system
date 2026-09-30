@@ -40,6 +40,10 @@ export function decodeStockQr(raw: string): string | null {
   return null;
 }
 
+const auditFields = {
+  source: z.enum(["QR", "MANUAL"]).optional().nullable(),
+};
+
 export const movementActionSchema = z.discriminatedUnion("type", [
   z.object({
     type: z.literal("STOCK_IN"),
@@ -47,6 +51,7 @@ export const movementActionSchema = z.discriminatedUnion("type", [
     quantity: z.coerce.number().int().positive(),
     note: z.string().trim().max(500).optional().nullable(),
     actor: z.string().trim().max(120).optional().nullable(),
+    ...auditFields,
   }),
   z.object({
     type: z.literal("STOCK_OUT"),
@@ -54,6 +59,7 @@ export const movementActionSchema = z.discriminatedUnion("type", [
     quantity: z.coerce.number().int().positive(),
     note: z.string().trim().max(500).optional().nullable(),
     actor: z.string().trim().max(120).optional().nullable(),
+    ...auditFields,
   }),
   z.object({
     type: z.literal("BORROW"),
@@ -62,11 +68,13 @@ export const movementActionSchema = z.discriminatedUnion("type", [
     borrower: z.string().trim().min(1).max(120),
     note: z.string().trim().max(500).optional().nullable(),
     dueAt: z.string().trim().optional().nullable(),
+    ...auditFields,
   }),
   z.object({
     type: z.literal("RETURN"),
     borrowId: z.string().trim().min(1),
     note: z.string().trim().max(500).optional().nullable(),
+    ...auditFields,
   }),
 ]);
 
